@@ -1,6 +1,7 @@
 package utilities.queue;
 
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public abstract class QueueSL<T> {
     private QueueNode<T> head;
@@ -37,6 +38,16 @@ public abstract class QueueSL<T> {
         T item = head.getItem();
         head = head.getNext();
         return item;
+    }
+    public void clear(){
+        head = null;
+        tail = null;
+    }
+
+    public void forEach(Consumer<T> action){
+        while(!isEmpty()){
+            action.accept(dequeue());
+        }
     }
 
     protected abstract QueueNode<T> createNewNode(T e);

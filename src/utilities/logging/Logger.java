@@ -26,11 +26,17 @@ public class Logger {
         instance.closeOutput();
     }
 
+    public static void log(LogLevel level, String s){
+        instance.logString(String.format("[%s] %s", level.name(), s));
+    }
+    public static void log(String s){
+        log(LogLevel.INFO, s);
+    }
+
     public void closeOutput(){
         output.close();
     }
-
-    public void log(String s){
+    public void logString(String s){
         output.println(s);
     }
 
@@ -38,5 +44,11 @@ public class Logger {
         public UnstartedLoggerException(){
             super();
         }
+    }
+
+    public enum LogLevel{
+        ERROR,
+        WARNING,
+        INFO
     }
 }
