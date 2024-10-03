@@ -37,6 +37,9 @@ public abstract class QueueSL<T> {
 
         T item = head.getItem();
         head = head.getNext();
+
+        if (head == null)
+            tail = null;
         return item;
     }
     public void clear(){

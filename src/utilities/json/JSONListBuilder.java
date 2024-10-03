@@ -1,13 +1,13 @@
 package utilities.json;
 
 import fileIO.writers.JSONWritable;
-import utilities.queue.implementations.JSONEntryQueue;
+import utilities.queue.implementations.SimpleQueue;
 
 public class JSONListBuilder {
-    private final JSONEntryQueue queue;
+    private final SimpleQueue<JSONEntry> queue;
     
     protected JSONListBuilder(){
-        queue = new JSONEntryQueue();
+        queue = new SimpleQueue<>();
     }
 
     public void addNumbers(Number... numbers){
@@ -36,11 +36,10 @@ public class JSONListBuilder {
     protected JSONEntry toEntry(){
         StringBuilder b = new StringBuilder();
         b.append("[");
-        while (queue.isEmpty()){
-            b.append(queue.dequeue());
+        while (!queue.isEmpty()){
+            b.append(queue.dequeue().data());
             if(!queue.isEmpty())
-                b.append(",");
-            b.append("\n");
+                b.append(", ");
         }
         b.append("]");
 

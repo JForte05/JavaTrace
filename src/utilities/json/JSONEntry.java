@@ -10,4 +10,9 @@ public class JSONEntry{
     protected String data(){
         return data;
     }
+
+    @Override
+    public String toString(){
+        return data();
+    }
 }

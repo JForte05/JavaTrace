@@ -3,37 +3,28 @@ package utilities.json;
 import java.util.function.Supplier;
 
 import fileIO.writers.JSONWritable;
-import utilities.queue.QueueNode;
 import utilities.queue.QueueSL;
-import utilities.queue.implementations.SimpleQueueNode;
+import utilities.queue.implementations.SimpleQueue;
 
 public class JSONBuilder{
     private final QueueSL<Supplier<JSONEntry>> entryQueue;
     private final QueueSL<String> nameQueue;
 
     public JSONBuilder(){
-        entryQueue = new QueueSL<Supplier<JSONEntry>>() {
-            @Override
-            protected QueueNode<Supplier<JSONEntry>> createNewNode(Supplier<JSONEntry> e) {
-                return new SimpleQueueNode<Supplier<JSONEntry>>(e);
-            }
-        };
-        nameQueue = new QueueSL<String>() {
-            @Override
-            protected QueueNode<String> createNewNode(String e){
-                return new SimpleQueueNode<String>(e);
-            }
-        };
+        entryQueue = new SimpleQueue<Supplier<JSONEntry>>();
+        nameQueue = new SimpleQueue<String>();
     }
 
-    public JSONBuilder addEntry(String name, JSONEntry entry){
+    public JSONBuilder addObject(String name, JSONWritable o){
         nameQueue.enqueue(name);
-        entryQueue.enqueue(() -> entry);
+        JSONBuilder b = new JSONBuilder();
+        o.writeJSON(b);
+        entryQueue.enqueue(b::toEntry);
         return this;
     }
     public JSONBuilder addString(String name, String s){
         nameQueue.enqueue(name);
-        entryQueue.enqueue(() -> new JSONEntry(s));
+        entryQueue.enqueue(() -> new JSONEntry('"' + s + '"'));
         return this;
     }
     public JSONBuilder addBoolean(String name, Boolean b){
@@ -46,7 +37,7 @@ public class JSONBuilder{
         entryQueue.enqueue(() -> new JSONEntry(n.toString()));
         return this;
     }
-    public JSONListBuilder createList(String name){
+    public JSONListBuilder createListBuilder(String name){
         nameQueue.enqueue(name);
         JSONListBuilder b = new JSONListBuilder();
         entryQueue.enqueue(b::toEntry);
@@ -55,11 +46,16 @@ public class JSONBuilder{
 
     public JSONEntry toEntry(){
         StringBuilder b = new StringBuilder();
+        b.append("{");
 
         while (!nameQueue.isEmpty() && !entryQueue.isEmpty()){
-            
-        }
+            b.append(String.format("%s : %s", nameQueue.dequeue(), entryQueue.dequeue().get().data()));
 
-        return null;
+            if(!entryQueue.isEmpty() || !nameQueue.isEmpty())
+                b.append(", ");
+        }
+        b.append("}");
+
+        return new JSONEntry(b.toString());
     }
 }
