@@ -1,5 +1,7 @@
 package goemetry;
 
-public class Scene {
+import rendering.Renderable;
+
+public class Scene implements Renderable{
     
 }
