@@ -91,6 +91,15 @@ public abstract class ListDL<T> {
         size--;
         return item;
     }
+    public void set(int index, T e) throws IndexOutOfBoundsException{
+        find(index).setItem(e);
+    }
+
+    public void removeAll(){
+        head = null;
+        tail = null;
+        size = 0;
+    }
 
     protected abstract ListNode<T> createNewNode(T data);
 
@@ -119,6 +128,10 @@ public abstract class ListDL<T> {
 
     public ListIterator<T> iterator(int startingAt) throws IndexOutOfBoundsException{
         return new ListItr(startingAt, find(startingAt));
+    }
+
+    public ListAccessor<T> accessor(int interPoints) throws IllegalArgumentException{
+        return new ListAccessor<T>(this, interPoints + 2);
     }
 
     private class ListItr implements ListIterator<T>{
