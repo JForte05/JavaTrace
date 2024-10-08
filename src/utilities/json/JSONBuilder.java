@@ -49,7 +49,7 @@ public class JSONBuilder{
         b.append("{");
 
         while (!nameQueue.isEmpty() && !entryQueue.isEmpty()){
-            b.append(String.format("%s : %s", nameQueue.dequeue(), entryQueue.dequeue().get().data()));
+            b.append(String.format("\"%s\" : %s", nameQueue.dequeue(), entryQueue.dequeue().get().data()));
 
             if(!entryQueue.isEmpty() || !nameQueue.isEmpty())
                 b.append(", ");

@@ -9,6 +9,7 @@ public class ImageDumper implements ImageSaver {
 
     @Override
     public File saveImage(Image image) {
+        
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'saveImage'");
     }   
