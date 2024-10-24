@@ -1,6 +1,9 @@
 package rendering.targets;
 
+import java.io.IOException;
+
 import color.Color;
+import fileIO.savers.image.ImageSaver;
 
 public final class Image implements RenderTarget {
     private Color[] pixels;
@@ -9,7 +12,7 @@ public final class Image implements RenderTarget {
 
     @Override
     public void writePixel(int x, int y, Color c) {
-        pixels[(y * ySize) + x] = c;
+        pixels[(y * xSize) + x] = c;
     }
 
     @Override
@@ -24,5 +27,13 @@ public final class Image implements RenderTarget {
     }
     public int getYSize(){
         return ySize;
+    }
+
+    public Color[] getPixels(){
+        return pixels;
+    }
+
+    public void save(String fileName, ImageSaver saver) throws IOException{
+        saver.saveImage(fileName, this);
     }
 }
