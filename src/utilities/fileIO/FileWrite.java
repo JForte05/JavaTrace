@@ -203,7 +203,6 @@ public class FileWrite {
             buffer[i] = index < array.length ? array[index] : null;
         }
     }
-
     /**
      * Gets a piece or "chunk" of an array and writes it to a buffer.
      * <p>If a chunk extends past the end of the array, the remaining space in the chunk will be filled with {@code null}.
@@ -235,4 +234,14 @@ public class FileWrite {
             }
         
     }
+    /**
+     * Calculates the number of chunks of given size are possible for the given array size.
+     * @param arraySize The size of the array
+     * @param chunkSize The size of the chunks
+     * @return The number of chunks possible in the array
+     */
+    public static int numberOfChunks(int arraySize, int chunkSize){
+        return arraySize / chunkSize + (arraySize % chunkSize == 0 ? 0 : 1);
+    }
+
 }
