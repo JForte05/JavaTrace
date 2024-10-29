@@ -13,6 +13,6 @@ public class JSONEntry{
 
     @Override
     public String toString(){
-        return data();
+        return data;
     }
 }

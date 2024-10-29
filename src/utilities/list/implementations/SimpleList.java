@@ -3,6 +3,9 @@ package utilities.list.implementations;
 import utilities.list.ListDL;
 import utilities.list.ListNode;
 
+/**
+ * Standard implementation of a list.
+ */
 public class SimpleList<T> extends ListDL<T>{
     public SimpleList(){
         super();

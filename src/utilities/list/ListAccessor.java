@@ -1,6 +1,9 @@
 package utilities.list;
 
-
+/**
+ * An object designed to speed up accessing values in a doubly-linked list by creating
+ * multiple entry points along the length of the list and beginning traversal from these entry points.
+ */
 public class ListAccessor<T> {
     private final ListNode<T>[] accessPoints;
     private final int interPointDistance;
@@ -55,9 +58,29 @@ public class ListAccessor<T> {
         }
     }
     
+    /**
+     * Gets the size of the parent list.
+     * @return The size of the parent list
+     */
+    public int size(){
+        return listSize;
+    }
+
+    /**
+     * Retrieves the element at the given index in the parent list.
+     * @param index The index to retrieve at
+     * @return The element at the given index
+     * @throws IndexOutOfBoundsException If the index given is larger than the size of the parent list
+     */
     public T get(int index) throws IndexOutOfBoundsException{
         return find(index).getItem();
     }
+    /**
+     * Sets the element at the given index in the parent list.
+     * @param index The index to retrieve at
+     * @param e The element at the given index
+     * @throws IndexOutOfBoundsException
+     */
     public void set(int index, T e) throws IndexOutOfBoundsException{
         find(index).setItem(e);
     }

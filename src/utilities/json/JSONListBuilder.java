@@ -10,21 +10,37 @@ public class JSONListBuilder {
         queue = new SimpleQueue<>();
     }
 
+    /**
+     * Add numbers to the list
+     * @param numbers The numbers to add
+     */
     public void addNumbers(Number... numbers){
         for (Number n : numbers) {
             queue.enqueue(new JSONEntry(n.toString()));
         }
     }
-    public void addBooleans(Boolean... booleans){
-        for (Boolean bool : booleans) {
-            queue.enqueue(new JSONEntry(bool.toString()));
+    /**
+     * Add booleans to the list
+     * @param booleans The booleans to add
+     */
+    public void addBooleans(boolean... booleans){
+        for (boolean bool : booleans) {
+            queue.enqueue(new JSONEntry(Boolean.toString(bool)));
         }
     }
+    /**
+     * Add strings to the list
+     * @param strings The strings to add
+     */
     public void addStrings(String... strings){
         for (String s : strings){
             queue.enqueue(new JSONEntry('"' + s + '"'));
         }
     }
+    /**
+     * Add objects to the list
+     * @param objects The objects to add
+     */
     public void addObjects(JSONWritable... objects){
         for (JSONWritable o : objects){
             JSONBuilder b = new JSONBuilder();

@@ -4,6 +4,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
+/**
+ * Abstract parent class for a doubly-linked list
+ */
 public abstract class ListDL<T> {
     protected ListNode<T> head;
     protected ListNode<T> tail;
