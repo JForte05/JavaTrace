@@ -1,5 +1,6 @@
 package rendering;
 
-public interface Renderable {
-    
+import fileIO.writers.JSONWritable;
+
+public interface Renderable extends Raycastable, JSONWritable {
 }

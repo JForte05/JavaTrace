@@ -2,8 +2,8 @@ package rendering.engines;
 
 import rendering.Camera;
 import rendering.Renderable;
-import rendering.targets.RenderTarget;
+import rendering.targets.Image;
 
 public interface Renderer {
-    public void render(RenderTarget target, Renderable subject, Camera through);
+    public Image render(Renderable subject, Camera through, int veritcalResolution);
 }

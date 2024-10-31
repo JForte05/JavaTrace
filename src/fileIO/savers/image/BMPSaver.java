@@ -73,6 +73,7 @@ public class BMPSaver extends ImageSaver{
             Color[] cBuffer = new Color[8];
             buffer = new byte[24];
 
+            // Can experiment with different chunk sizes
             int numChunks = FileWrite.numberOfChunks(pixels.length, 8);
             for (int i = 0; i < numChunks - 1; i++){
                 FileWrite.chunkArray(pixels, cBuffer, 8, i);
@@ -112,9 +113,9 @@ public class BMPSaver extends ImageSaver{
                 if (c == null)
                     break;
 
-                buffer[i * 3] = c.r;
+                buffer[i * 3] = c.b;
                 buffer[i * 3 + 1] = c.g;
-                buffer[i * 3 + 2] = c.b;
+                buffer[i * 3 + 2] = c.r;
                 nonNullColors = i + 1;
             }
             fos.write(buffer, 0, nonNullColors * 3 - 1);

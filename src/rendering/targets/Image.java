@@ -6,20 +6,19 @@ import color.Color;
 import fileIO.savers.image.ImageSaver;
 
 public final class Image implements RenderTarget {
-    private Color[] pixels;
-    private int xSize;
-    private int ySize;
+    private final Color[] pixels;
+    private final int xSize;
+    private final int ySize;
+
+    public Image(int xSize, int ySize){
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.pixels = new Color[xSize * ySize];
+    }
 
     @Override
     public void writePixel(int x, int y, Color c) {
         pixels[(y * xSize) + x] = c;
-    }
-
-    @Override
-    public void acceptDimensions(int x, int y) {
-        pixels = new Color[x * y];
-        this.xSize = x;
-        this.ySize = y;
     }
 
     public int getXSize(){
@@ -31,6 +30,10 @@ public final class Image implements RenderTarget {
 
     public Color[] getPixels(){
         return pixels;
+    }
+
+    public Color getPixel(int x, int y){
+        return pixels[(y * xSize) + x];
     }
 
     public void save(String fileName, ImageSaver saver) throws IOException{

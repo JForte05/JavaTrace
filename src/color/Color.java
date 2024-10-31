@@ -1,7 +1,7 @@
 package color;
 
 import fileIO.writers.JSONWritable;
-import goemetry.Vector3;
+import geometry.Vector3;
 import utilities.json.JSONBuilder;
 
 public class Color implements JSONWritable{
