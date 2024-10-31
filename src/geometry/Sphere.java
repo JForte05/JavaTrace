@@ -28,10 +28,8 @@ public class Sphere implements Renderable{
         Vector3 d = r.direction;
         Vector3 o = r.origin;
         Vector3 diff = center.minus(o);
-        if (diff.dot(r.direction) < 0.0){
-            System.out.println("Early Exit");
-            return RayHit.none();
-        }
+        if (diff.dot(r.direction) < 0.0)
+            return RayHit.none();        
 
         double b = 2.0 * diff.dotNonNormal(d);
         double c = diff.sqrMagnitude() - (radius * radius);
