@@ -120,7 +120,9 @@ public class RayTracer implements Renderer{
 
                                     if (!hitInfo.hit)
                                         break;
-
+                                    
+                                    // Lighting logic learned from
+                                    // https://blog.demofox.org/2020/05/25/casual-shadertoy-path-tracing-1-basic-camera-diffuse-emissive/
                                     color = 
                                         color.plus(hitInfo.emissionColor.multiply(hitInfo.emissionStrength).componentMultiplication(throughput));
                                     throughput = throughput.componentMultiplication(hitInfo.hitColor);
