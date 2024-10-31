@@ -23,8 +23,8 @@ public class Color implements JSONWritable{
         this.b = (byte)(floatVector.z * 255.0);
     }
 
-    public Vector3 normalizedVector(){
-        return new Vector3((double)r / 255.0, (double)g / 255.0, (double)b / 255.0);
+    public Vector3 floatVector(){
+        return new Vector3(((int)r & 0xff) / 255.0, ((int)g & 0xff) / 255.0, ((int)b & 0xff) / 255.0);
     }
 
     public String toHexString(){

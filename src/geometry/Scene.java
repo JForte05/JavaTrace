@@ -38,7 +38,7 @@ public class Scene implements Renderable{
         RayHit closestHit = RayHit.none();
         while(itr.hasNext()){
             RayHit newHit = itr.next().testRay(r);
-            if (newHit.hit && newHit.distance < closestHit.distance)
+            if (newHit.hit && (newHit.distance < closestHit.distance || Double.isInfinite(closestHit.distance)))
                 closestHit = newHit;
         }
 

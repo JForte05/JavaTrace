@@ -20,13 +20,6 @@ public class Material implements JSONWritable{
         emissionStrength = 0.0;
     }
 
-    @Override
-    public void writeJSON(JSONBuilder builder) {
-        builder.addObject("base-color", baseColor);
-        builder.addObject("emssion-color", emissionColor);
-        builder.addNumber("emission-strength", emissionStrength);
-    }
-
     public Color getColor(){
         return baseColor;
     }
@@ -35,5 +28,12 @@ public class Material implements JSONWritable{
     }
     public double getEmissiveStrength(){
         return emissionStrength;
+    }
+
+    @Override
+    public void writeJSON(JSONBuilder builder) {
+        builder.addObject("base-color", baseColor);
+        builder.addObject("emssion-color", emissionColor);
+        builder.addNumber("emission-strength", emissionStrength);
     }
 }

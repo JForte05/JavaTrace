@@ -1,6 +1,10 @@
 package utilities.math;
 
+import java.util.Random;
+
 public class MathUtils {
+    private static Random random = new Random();
+
     /**
      * Calculates the greatest common denominator between 2 non negative integers.
      * <P>NOTE: If {@code a = 0}, this method will return 0, but if {@code b = 0} this method will return {@code a}.
@@ -22,5 +26,12 @@ public class MathUtils {
         }
 
         return a;
+    }
+
+    public static double randDouble(){
+        return random.nextDouble();
+    }
+    public static double randDouble(double min, double max){
+        return random.nextDouble(max - min) + min;
     }
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import color.Color;
 import geometry.Ray;
+import geometry.Vector3;
 import rendering.Camera;
 import rendering.RayHit;
 import rendering.Renderable;
@@ -15,14 +16,27 @@ import utilities.queue.implementations.SimpleQueue;
 
 public class RayTracer implements Renderer{
     private static final int DEFAULT_THREADS = 16;
+    private static final int DEFAULT_MAXBOUNCES = 3;
+    private static final int DEFAULT_RAYSPERPIXEL = 10;
 
     private final int numOfThreads;
+    private final int maxBounces;
+    private final int raysPerPixel;
 
     public RayTracer(){
         this.numOfThreads = DEFAULT_THREADS;
+        this.maxBounces = DEFAULT_MAXBOUNCES;
+        this.raysPerPixel = DEFAULT_RAYSPERPIXEL;
     }
-    public RayTracer(int numberOfThreads){
+    public RayTracer(int maxBounces, int raysPerPixel){
+        this.numOfThreads = DEFAULT_THREADS;
+        this.maxBounces = maxBounces;
+        this.raysPerPixel = raysPerPixel;
+    }
+    public RayTracer(int numberOfThreads, int maxBounces, int raysPerPixel){
         this.numOfThreads = numberOfThreads;
+        this.maxBounces = maxBounces;
+        this.raysPerPixel = raysPerPixel;
     }
 
     @Override
@@ -59,7 +73,7 @@ public class RayTracer implements Renderer{
 
         // start render threads
         for (int i = 0; i < numOfThreads; i++){
-            new RenderThread(queues[i], latch, through, target, subject).start();
+            new RenderThread(raysPerPixel, maxBounces, queues[i], latch, through, target, subject).start();
         }
 
         try{
@@ -74,7 +88,8 @@ public class RayTracer implements Renderer{
     }
 
     private class RenderThread extends Thread{
-        public RenderThread(QueueSL<ImageChunk> renderQueue, CountDownLatch latch, Camera source, RenderTarget output, Renderable subject){
+        public RenderThread(int raysPerPixel, int maxBounces, QueueSL<ImageChunk> renderQueue, CountDownLatch latch, 
+            Camera source, RenderTarget output, Renderable subject){
             super(() -> {
                 if (renderQueue == null)
                     return;
@@ -88,10 +103,32 @@ public class RayTracer implements Renderer{
                     
                     for (int y = yMin; y < yMax; y++){
                         for (int x = xMin; x < xMax; x++){
-                            Ray r = source.getRay(x / (double)output.getXSize(), y / (double)output.getYSize());
+                            Vector3 finalColor = Vector3.zero();
+                            for (int i = 0; i < raysPerPixel; i++){
+                                Ray r = source.getRay(x / (double)output.getXSize(), y / (double)output.getYSize());
+                                RayHit hitInfo = subject.testRay(r);
+                                if (!hitInfo.hit){
+                                    //output.writePixel(x, y, new Color(0, 0, 0));
+                                    break;
+                                }
 
-                            RayHit hit = subject.testRay(r);
-                            output.writePixel(x, y, hit.hit ? hit.hitColor : new Color(0, 0, 0));
+                                Vector3 color = hitInfo.emissionColor.multiply(hitInfo.emissionStrength).componentMultiplication(Vector3.one());
+                                Vector3 throughput = hitInfo.hitColor;
+                                for (int b = 0; b < maxBounces; b++){
+                                    r = new Ray(hitInfo.hitPoint, hitInfo.bounceDirection);
+                                    hitInfo = subject.testRay(r);
+
+                                    if (!hitInfo.hit)
+                                        break;
+
+                                    color = 
+                                        color.plus(hitInfo.emissionColor.multiply(hitInfo.emissionStrength).componentMultiplication(throughput));
+                                    throughput = throughput.componentMultiplication(hitInfo.hitColor);
+                                }
+                                finalColor = finalColor.plus(color);
+                            }
+
+                            output.writePixel(x, y, new Color(finalColor.divide(raysPerPixel)));
                         }
                     }
                 }

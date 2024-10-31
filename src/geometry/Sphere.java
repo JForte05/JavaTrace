@@ -27,8 +27,8 @@ public class Sphere implements Renderable{
     public RayHit testRay(Ray r) {
         Vector3 d = r.direction;
         Vector3 o = r.origin;
-        Vector3 diff = center.minus(o);
-        if (diff.dot(r.direction) < 0.0)
+        Vector3 diff = o.minus(center);
+        if (center.minus(o).dot(r.direction) < 0.0)
             return RayHit.none();        
 
         double b = 2.0 * diff.dotNonNormal(d);
@@ -40,6 +40,6 @@ public class Sphere implements Renderable{
 
         double t = Math.min((-b + Math.sqrt(discrim)) / 2.0, (-b - Math.sqrt(discrim)) / 2.0);
         Vector3 point = r.direction.multiply(t).plus(o);
-        return RayHit.of(t, point, material.getColor(), point.minus(center).normalized());
+        return RayHit.of(t, point, material, point.minus(center).normalized());
     }
 }
