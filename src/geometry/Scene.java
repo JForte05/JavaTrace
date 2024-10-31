@@ -10,10 +10,16 @@ import utilities.json.JSONListBuilder;
 import utilities.list.implementations.SimpleList;
 
 public class Scene implements Renderable{
-    private SimpleList<Renderable> sceneObjects = new SimpleList<>();
+    private SimpleList<Renderable> sceneObjects;
 
-    public void addObject(Renderable object){
-        sceneObjects.add(object, 0);
+    public Scene(){
+        sceneObjects = new SimpleList<>();
+    }
+    
+    public void addObjects(Renderable... objects){
+        for (Renderable o : objects) {
+            sceneObjects.add(o, 0);
+        }
     }
 
     @Override
