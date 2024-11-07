@@ -112,7 +112,7 @@ public class RayTracer implements Renderer{
                                     break;
                                 }
 
-                                Vector3 color = hitInfo.emissionColor.multiply(hitInfo.emissionStrength).componentMultiplication(Vector3.one());
+                                Vector3 color = hitInfo.emissionColor.multiply(hitInfo.emissionStrength);
                                 Vector3 throughput = hitInfo.hitColor;
                                 for (int b = 0; b < maxBounces; b++){
                                     r = new Ray(hitInfo.hitPoint, hitInfo.bounceDirection);
