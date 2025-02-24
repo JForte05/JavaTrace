@@ -1,6 +1,6 @@
 # JavaTrace
 
-JavaTrace is a Java sripting framework enabling CPU raytracing quickly and easily
+JavaTrace is a Java scripting framework enabling CPU raytracing quickly and easily
 
 ## Usage
 Using JavaTrace is simple and takes only 4 steps:
