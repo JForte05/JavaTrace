@@ -33,10 +33,10 @@ public class Vector3 implements JSONWritable{
     public static Vector3 randomUnitVector(){
         // Algorithm sourced from:
         // https://math.stackexchange.com/questions/44689/how-to-find-a-random-axis-or-unit-vector-in-3d
-
-        double cosTheta = MathUtils.randDouble(-1.0, 1.0);
+        
         double phi = MathUtils.randDouble(0.0, 6.28318530718); // 0 to 2pi
-        double theta = Math.acos(cosTheta);
+        double cosTheta = MathUtils.randDouble(-1.0, 1.0);
+        double theta = MathUtils.facos(cosTheta);
 
         return new Vector3(Math.sin(theta) * Math.cos(phi), Math.sin(theta) * Math.sin(phi), cosTheta);
     }

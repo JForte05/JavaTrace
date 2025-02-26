@@ -14,6 +14,13 @@ import utilities.math.MathUtils;
 import utilities.queue.QueueSL;
 import utilities.queue.implementations.SimpleQueue;
 
+/**
+ * The primary renderer used in JavaTrace.
+ * 
+ * <p>Implements a ray tracing algorithm and casts multiple rays out for each pixel 
+ * to approximate the real world processes that light follows in order to produce a realistically
+ * lit image.
+ */
 public class RayTracer implements Renderer{
     private static final int DEFAULT_THREADS = 16;
     private static final int DEFAULT_MAXBOUNCES = 3;
@@ -87,6 +94,9 @@ public class RayTracer implements Renderer{
         return target;
     }
 
+    /**
+     * A thread which renders a queue of ImageChunks and decrements a count down latch upon processing the entire queue
+     */
     private class RenderThread extends Thread{
         public RenderThread(int raysPerPixel, int maxBounces, QueueSL<ImageChunk> renderQueue, CountDownLatch latch, 
             Camera source, RenderTarget output, Renderable subject){
@@ -115,7 +125,7 @@ public class RayTracer implements Renderer{
                                 Vector3 color = hitInfo.emissionColor.multiply(hitInfo.emissionStrength);
                                 Vector3 throughput = hitInfo.hitColor;
                                 for (int b = 0; b < maxBounces; b++){
-                                    r = new Ray(hitInfo.hitPoint, hitInfo.bounceDirection);
+                                    r = new Ray(hitInfo.hitPoint.plus(hitInfo.bounceDirection.multiply(0.000001)), hitInfo.bounceDirection);
                                     hitInfo = subject.testRay(r);
 
                                     if (!hitInfo.hit)
@@ -140,6 +150,9 @@ public class RayTracer implements Renderer{
         }
     }
 
+    /**
+     * Represents a rectangular region of an image 
+     */
     private class ImageChunk{
         public int xMin;
         public int xMax;

@@ -29,8 +29,8 @@ public class Sphere implements Renderable{
         Vector3 o = r.origin;
         Vector3 diff = o.minus(center);
         if (center.minus(o).dot(r.direction) < 0.0)
-            return RayHit.none();        
-
+            return RayHit.none();
+        
         double b = 2.0 * diff.dotNonNormal(d);
         double c = diff.sqrMagnitude() - (radius * radius);
         double discrim = (b * b) - (4.0 * c);
